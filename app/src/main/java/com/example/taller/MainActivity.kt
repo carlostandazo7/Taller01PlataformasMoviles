@@ -116,3 +116,14 @@ class MainActivity : AppCompatActivity() {
             }
         }
 }
+
+class PropiedadesVehiculo(val traccion:Array<trac>, val motor:String, val tipo: String, val capacidad:String){
+    enum class trac{
+        delantera, trasera
+    }
+    fun propiedades(){
+        for (trac in traccion){
+            println("La traccion es: " +trac)
+        }
+    }
+}
