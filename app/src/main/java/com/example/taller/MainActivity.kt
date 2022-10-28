@@ -1,17 +1,16 @@
 package com.example.taller
 
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
         edadPersona()
         tablaMultiplicar()
         listadoParalelo()
-
+        propiedadesVehiculo()
         calculoIVA()
         validarCedula()
     }
@@ -31,13 +30,13 @@ class MainActivity : AppCompatActivity() {
         val num = 2
         println("Forma ascendente")
         for(x in 0..10){
-            val res1 = num * x
-            println(res1)
+            println("$num x $x = ${num * x}")
         }
         println("Forma descendente")
-        for (x in 10 downTo 0){
-            val res2 = num * x
-            println(res2)
+        var des = 10
+        for (x in 0..10){
+            des = des - 1
+            println("$num x $des = ${num * des}")
         }
     }
 
@@ -46,20 +45,38 @@ class MainActivity : AppCompatActivity() {
     fun listadoParalelo(){
 
         val myArray = arrayListOf<String>()
-        myArray.addAll(listOf("Eric Alvarado","Miguel Caraguay","Carlos Castillo","Erick Cuenca",
-            "Anthonny Espinosa","Jhoselin Guachizaca","Steven Jara","Adriana Jaramillo",
-            "Andres Jimenez","Diego Leiva","Mateo Martinez","Pablo Montaño","Rommel Ojeda",
+        myArray.addAll(listOf("Mateo Martinez","Pablo Montaño","Rommel Ojeda",
             "Joselito Ordoñez","Diego Pardo","Bryan Rodriguez","Pablo Saraguro","Jose Silva",
             "Carlos Tandazo"))
-        println(myArray)
 
+        val orden = myArray.sorted()
+        println("Listado Paralelo")
+        for(myArray in orden){
+            println(myArray)
+        }
 
+        val subG = mutableMapOf("Mateo Martinez" to "Grupo01", "Pablo Montaño" to "Grupo02",
+            "Rommel Ojeda" to "Grupo01", "Joselito Ordoñez" to "Grupo01", "Diego Pardo" to "Grupo03",
+            "Bryan Rodriguez" to "Grupo02", "Pablo Saraguro" to "Grupo02", "Jose Silva" to "Grupo03",
+            "Carlos Tandazo" to "Grupo03")
+
+        val ordenSubG = subG.toSortedMap()
+        println ("Grupo paralelo")
+        for(x in ordenSubG){
+            println("${x.key} - ${x.value}")
+        }
     }
 
     // Presentar las propiedades de un vehículo utilizando clases,
     // como tracción, motor, tipo de vehículo, capacidad
     fun propiedadesVehiculo(){
+        val vehiculo = PropiedadesVehiculo(arrayOf(PropiedadesVehiculo.trac.trasera), motor = "Hibrido",
+            tipo = "Motorizado", capacidad = "5 pasajeros")
 
+        vehiculo.propiedades()
+        println(vehiculo.motor)
+        println(vehiculo.tipo)
+        println(vehiculo.capacidad)
     }
 
     // Algoritomo de cálculo de IVA 12%
@@ -73,7 +90,29 @@ class MainActivity : AppCompatActivity() {
 
     // Validación de la cedula
     fun validarCedula(){
-
-    }
-
+        val cedula = arrayListOf<Int>(1,1,5,0,6,2,0,0,7,6)
+        var total = 0
+        var cont = 0
+        val final = cedula.last()
+        for (x in cedula.indices){
+            cont = cedula[x]
+            if (x % 2 == 0){
+                cont = (cedula[x] * 2)
+                if (cont > 9){
+                    cont = cont - 9
+                }
+                total = total + cont
+            } else {
+                total = total + cont
+            }
+        }
+        total = total - final
+        val primero = total.toString().substring(0,1)
+        val decimo = (primero.toInt() + 1) * 10
+            if (decimo - total == final || decimo - total == 10){
+                println("La cedula es valida")
+            }else{
+                println("La cedula no es valida")
+            }
+        }
 }
